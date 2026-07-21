@@ -4,7 +4,6 @@
    ============================================ */
 
 let currentTab = 'today';
-let holdTimer = null;
 let selectionActive = false;
 
 // TAB AÇMA
@@ -30,44 +29,64 @@ function initializeSelection() {
     document.querySelectorAll(".tourRow").forEach(row => {
         let pressTimer = null;
         let touchStartTime = 0;
+        let isTouchDevice = false;
 
-        function startPress(e) {
+        // Touch başladığında
+        row.addEventListener("touchstart", function(e) {
+            isTouchDevice = true;
             touchStartTime = Date.now();
+            e.preventDefault();
+            
             pressTimer = setTimeout(() => {
                 selectionActive = true;
                 selectRow(row);
-                // Türü belirt
-                if (e.type === 'touchstart') {
-                    e.preventDefault();
-                }
             }, 1000); // 1 saniye
-        }
+        }, { passive: false });
 
-        function endPress(e) {
+        // Touch bittiğinde
+        row.addEventListener("touchend", function(e) {
+            e.preventDefault();
             clearTimeout(pressTimer);
-            // Uzun basış süresi tamamlansa bile context menu açılmasın
-            if (Date.now() - touchStartTime > 1000 && e.type === 'touchend') {
-                e.preventDefault();
-            }
-        }
+        }, { passive: false });
 
-        // PC - Mouse
-        row.addEventListener("mousedown", startPress);
-        row.addEventListener("mouseup", endPress);
-        row.addEventListener("mouseleave", endPress);
+        // Touch cancel
+        row.addEventListener("touchcancel", function(e) {
+            e.preventDefault();
+            clearTimeout(pressTimer);
+        }, { passive: false });
 
-        // Telefon - Touch (context menu açılmasını engelle)
-        row.addEventListener("touchstart", startPress, { passive: false });
-        row.addEventListener("touchend", endPress, { passive: false });
-        row.addEventListener("touchcancel", endPress);
-        row.addEventListener("contextmenu", (e) => {
-            if (Date.now() - touchStartTime > 800) {
-                e.preventDefault();
+        // Context menu engelle
+        row.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Mouse down (PC)
+        row.addEventListener("mousedown", function(e) {
+            if (!isTouchDevice) {
+                touchStartTime = Date.now();
+                pressTimer = setTimeout(() => {
+                    selectionActive = true;
+                    selectRow(row);
+                }, 1000);
             }
         });
 
-        // Seçim aktifken tıklama
-        row.addEventListener("click", (e) => {
+        // Mouse up (PC)
+        row.addEventListener("mouseup", function(e) {
+            if (!isTouchDevice) {
+                clearTimeout(pressTimer);
+            }
+        });
+
+        row.addEventListener("mouseleave", function(e) {
+            if (!isTouchDevice) {
+                clearTimeout(pressTimer);
+            }
+        });
+
+        // Click handler - Seçim aktifken çalışır
+        row.addEventListener("click", function(e) {
             if (selectionActive) {
                 selectRow(row);
                 selectionActive = false;
@@ -165,7 +184,6 @@ function updateSummary(tab) {
         <th style='padding:8px;text-align:left;border-bottom:2px solid #ddd;width:60px;'>Kişi</th>
     </tr>`;
     
-    let rowNum = 1;
     selectedRows.forEach(row => {
         const badge = row.querySelector(".selectBadge").textContent;
         const office = row.dataset.office;
@@ -245,4 +263,12 @@ function clearSelectionTomorrow() {
 // SAYFA YÜKLENDİĞİNDE
 document.addEventListener("DOMContentLoaded", function() {
     initializeSelection();
+    
+    // Tüm context menu'leri engelle
+    document.addEventListener("contextmenu", function(e) {
+        if (e.target.closest(".tourRow")) {
+            e.preventDefault();
+            return false;
+        }
+    });
 });
