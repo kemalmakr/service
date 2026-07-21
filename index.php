@@ -17,6 +17,9 @@ if($now >= $cutoff){
 $todayDate = $baseDate;
 $tomorrowDate = date("Y-m-d", strtotime($baseDate . " +1 day"));
 
+// Türkçe gün adları
+$gunler = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+
 function getTourType($time){
     $t = strtotime($time);
 
@@ -145,6 +148,14 @@ function calculateVehicleStats($vehicleInfo){
         'p' => $p,
         'toplamKisi' => $toplamKisi
     ];
+}
+
+function formatTarihi($date, $gunler) {
+    $timestamp = strtotime($date);
+    $gun_no = (int)date('w', $timestamp) - 1;
+    if($gun_no < 0) $gun_no = 6;
+    $gun_adi = $gunler[$gun_no];
+    return date("d.m.Y", $timestamp) . " " . $gun_adi;
 }
 
 $todayRows = getTours($pdo, $todayDate);
@@ -281,7 +292,7 @@ function tableBlock($title, $data, $tabId){
     <!-- BUGÜN SEKMESİ -->
     <div id="today" class="tabContent">
         <h2 class="w3-text-green dateTitle">
-            <?php echo date("📆 d.m.Y dddd", strtotime($todayDate)); ?>
+            📆 <?php echo formatTarihi($todayDate, $gunler); ?>
         </h2>
 
         <div id="serviceSummaryToday" class="serviceSummary w3-card w3-white w3-padding summaryBox">
@@ -302,7 +313,7 @@ function tableBlock($title, $data, $tabId){
     <!-- YARIN SEKMESİ -->
     <div id="tomorrow" class="tabContent" style="display:none">
         <h2 class="w3-text-orange dateTitle">
-            <?php echo date("📆 d.m.Y dddd", strtotime($tomorrowDate)); ?>
+            📆 <?php echo formatTarihi($tomorrowDate, $gunler); ?>
         </h2>
 
         <div id="serviceSummaryTomorrow" class="serviceSummary w3-card w3-white w3-padding summaryBox">
