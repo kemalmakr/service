@@ -29,16 +29,26 @@ function openTab(event, tab) {
 function initializeSelection() {
     document.querySelectorAll(".tourRow").forEach(row => {
         let pressTimer = null;
+        let touchStartTime = 0;
 
         function startPress(e) {
+            touchStartTime = Date.now();
             pressTimer = setTimeout(() => {
                 selectionActive = true;
                 selectRow(row);
-            }, 2000); // 2 saniye
+                // Türü belirt
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+            }, 1000); // 1 saniye
         }
 
-        function endPress() {
+        function endPress(e) {
             clearTimeout(pressTimer);
+            // Uzun basış süresi tamamlansa bile context menu açılmasın
+            if (Date.now() - touchStartTime > 1000 && e.type === 'touchend') {
+                e.preventDefault();
+            }
         }
 
         // PC - Mouse
@@ -46,15 +56,21 @@ function initializeSelection() {
         row.addEventListener("mouseup", endPress);
         row.addEventListener("mouseleave", endPress);
 
-        // Telefon - Touch
-        row.addEventListener("touchstart", startPress, false);
-        row.addEventListener("touchend", endPress);
+        // Telefon - Touch (context menu açılmasını engelle)
+        row.addEventListener("touchstart", startPress, { passive: false });
+        row.addEventListener("touchend", endPress, { passive: false });
         row.addEventListener("touchcancel", endPress);
+        row.addEventListener("contextmenu", (e) => {
+            if (Date.now() - touchStartTime > 800) {
+                e.preventDefault();
+            }
+        });
 
         // Seçim aktifken tıklama
         row.addEventListener("click", (e) => {
             if (selectionActive) {
                 selectRow(row);
+                selectionActive = false;
             }
         });
     });
