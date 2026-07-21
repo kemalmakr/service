@@ -181,7 +181,7 @@ function tableBlock($title, $data, $tabId){
 
     echo "<table class='w3-table w3-bordered w3-striped serviceTable'>";
     echo "<tr class='w3-light-grey'>";
-    echo "<th style='width:80px;text-align:center'>#</th>";
+    echo "<th style='width:50px;text-align:center;'>✓</th>";
     echo "<th>Ofis</th>";
     echo "<th>Otel / Oda</th>";
     echo "<th>Araç</th>";
@@ -190,38 +190,21 @@ function tableBlock($title, $data, $tabId){
     echo "<th style='width:100px'>Durum</th>";
     echo "</tr>";
 
-    $stats = [
-        'q' => 0,
-        'b' => 0,
-        'f' => 0,
-        'p' => 0
-    ];
-
     foreach($data as $idx => $t){
         $vehicleStats = calculateVehicleStats($t['vehicle_info']);
         $toplamKisi = $vehicleStats['toplamKisi'];
-
-        $stats['q'] += $vehicleStats['q'];
-        $stats['b'] += $vehicleStats['b'];
-        $stats['f'] += $vehicleStats['f'];
-        $stats['p'] += $vehicleStats['p'];
 
         echo "<tr class='tourRow' 
                 data-tab='{$tabId}'
                 data-vehicle='".htmlspecialchars($t['vehicle_info'])."'
                 data-person='{$toplamKisi}'
-                data-order='0'
                 data-selected='0'
-                data-index='{$idx}'
                 data-office='".htmlspecialchars($t['office_name'])."'
                 data-hotel='".htmlspecialchars($t['hotel_name'])."'
                 data-room='".htmlspecialchars($t['room_number'])."'
-                data-time='{$t['tour_time']}'
-                data-q='{$vehicleStats['q']}'
-                data-b='{$vehicleStats['b']}'
-                data-f='{$vehicleStats['f']}'>";
+                data-time='{$t['tour_time']}'>";
 
-        echo "<td class='selectBadge' style='text-align:center;font-weight:bold;color:#2196F3;font-size:18px;'></td>";
+        echo "<td style='text-align:center;'><input type='checkbox' class='tourCheckbox' style='width:20px;height:20px;cursor:pointer;'></td>";
         echo "<td class='office'>".htmlspecialchars($t['office_name'])."</td>";
         echo "<td class='hotel'><b>".htmlspecialchars($t['hotel_name'])."</b><br><small>Oda: ".htmlspecialchars($t['room_number'])."</small></td>";
         echo "<td class='vehicle'><b>".htmlspecialchars($t['vehicle_info'])."</b><br><span style='color:#1565c0;font-weight:bold;'>👥 {$toplamKisi}</span></td>";
@@ -236,27 +219,6 @@ function tableBlock($title, $data, $tabId){
     }
 
     echo "</table>";
-
-    echo "<div class='w3-row-padding w3-margin-top w3-margin-bottom'>";
-
-    echo "<div class='w3-half'>";
-    echo "<div class='w3-card w3-padding garajCard'>";
-    echo "<div class='garajTitle'>🔧 Garaj İçin</div>";
-    echo "<div class='garajContent'>";
-    if($stats['q'] > 0) echo "<div><span class='vehicleIcon atv'>●</span> <b>$stats[q] ATV</b></div>";
-    if($stats['b'] > 0) echo "<div><span class='vehicleIcon buggy'>●</span> <b>$stats[b] Buggy</b></div>";
-    if($stats['f'] > 0) echo "<div><span class='vehicleIcon family'>●</span> <b>$stats[f] Family</b></div>";
-    echo "</div></div>";
-    echo "</div>";
-
-    echo "<div class='w3-half'>";
-    echo "<div class='w3-card w3-padding kisiBilgisi'>";
-    echo "<div class='kisiBilgisiTitle'>👥 Toplam Kişi</div>";
-    echo "<div class='kisiBilgisiNumber'>$stats[p]</div>";
-    echo "</div>";
-    echo "</div>";
-
-    echo "</div>";
     echo "</div>";
 }
 ?>
@@ -295,16 +257,6 @@ function tableBlock($title, $data, $tabId){
             📆 <?php echo formatTarihi($todayDate, $gunler); ?>
         </h2>
 
-        <div id="serviceSummaryToday" class="serviceSummary w3-card w3-white w3-padding summaryBox">
-            <div class="summaryHeader">
-                <h3 style="margin:0;">🚐 Seçilen Servisler</h3>
-                <button onclick="clearSelectionToday()" class="w3-button w3-red w3-small clearBtn">Temizle</button>
-            </div>
-            <div class="summaryText">
-                <p style="color:#999;">Seçim yapılmadı.</p>
-            </div>
-        </div>
-
         <?php tableBlock('Sabah (07:30-10:50)', $sabahToday, 'today'); ?>
         <?php tableBlock('Öğlen (12:30-15:30)', $oglenToday, 'today'); ?>
         <?php tableBlock('Özel (15:36-17:30)', $ozelToday, 'today'); ?>
@@ -316,21 +268,19 @@ function tableBlock($title, $data, $tabId){
             📆 <?php echo formatTarihi($tomorrowDate, $gunler); ?>
         </h2>
 
-        <div id="serviceSummaryTomorrow" class="serviceSummary w3-card w3-white w3-padding summaryBox">
-            <div class="summaryHeader">
-                <h3 style="margin:0;">🚐 Seçilen Servisler</h3>
-                <button onclick="clearSelectionTomorrow()" class="w3-button w3-red w3-small clearBtn">Temizle</button>
-            </div>
-            <div class="summaryText">
-                <p style="color:#999;">Seçim yapılmadı.</p>
-            </div>
-        </div>
-
         <?php tableBlock('Sabah (07:30-10:50)', $sabahTomorrow, 'tomorrow'); ?>
         <?php tableBlock('Öğlen (12:30-15:30)', $oglenTomorrow, 'tomorrow'); ?>
         <?php tableBlock('Özel (15:36-17:30)', $ozelTomorrow, 'tomorrow'); ?>
     </div>
 
+</div>
+
+<!-- SABIT ÖZET BÖLÜMÜ - ALT KISIM -->
+<div id="fixedSummary" class="fixedSummary">
+    <div class="summaryContent">
+        <span id="totalPeopleText" style="font-size:1.2rem;font-weight:bold;color:#1565c0;">👥 Toplam: 0 Kişi</span>
+        <button onclick="clearAllSelection()" class="w3-button w3-red w3-small" style="float:right;">Temizle</button>
+    </div>
 </div>
 
 <script src="script.js"></script>
