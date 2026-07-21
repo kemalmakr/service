@@ -155,12 +155,12 @@ $isAfterCutoff = ($now >= $cutoff);
 list($sabahToday, $oglenToday, $ozelToday) = splitTours($todayRows, !$isAfterCutoff);
 list($sabahTomorrow, $oglenTomorrow, $ozelTomorrow) = splitTours($tomorrowRows, false);
 
-function tableBlock($title, $data){
+function tableBlock($title, $data, $tabId){
     if($title == 'Özel' && empty($data)){
         return;
     }
 
-    echo "<div class='w3-card w3-margin-bottom tourBlock'>";
+    echo "<div class='w3-card w3-margin-bottom tourBlock' data-tab='{$tabId}'>";
     echo "<div class='w3-blue w3-padding tourBlockHeader'><h3 style='margin:0'>$title</h3></div>";
 
     if(!$data){
@@ -196,6 +196,7 @@ function tableBlock($title, $data){
         $stats['p'] += $vehicleStats['p'];
 
         echo "<tr class='tourRow' 
+                data-tab='{$tabId}'
                 data-vehicle='".htmlspecialchars($t['vehicle_info'])."'
                 data-person='{$toplamKisi}'
                 data-order='0'
@@ -204,7 +205,10 @@ function tableBlock($title, $data){
                 data-office='".htmlspecialchars($t['office_name'])."'
                 data-hotel='".htmlspecialchars($t['hotel_name'])."'
                 data-room='".htmlspecialchars($t['room_number'])."'
-                data-time='{$t['tour_time']}'>";
+                data-time='{$t['tour_time']}'
+                data-q='{$vehicleStats['q']}'
+                data-b='{$vehicleStats['b']}'
+                data-f='{$vehicleStats['f']}'>";
 
         echo "<td class='selectBadge' style='text-align:center;font-weight:bold;color:#2196F3;font-size:18px;'></td>";
         echo "<td class='office'>".htmlspecialchars($t['office_name'])."</td>";
@@ -290,9 +294,9 @@ function tableBlock($title, $data){
             </div>
         </div>
 
-        <?php tableBlock('Sabah (07:30-10:50)', $sabahToday); ?>
-        <?php tableBlock('Öğlen (12:30-15:30)', $oglenToday); ?>
-        <?php tableBlock('Özel (15:36-17:30)', $ozelToday); ?>
+        <?php tableBlock('Sabah (07:30-10:50)', $sabahToday, 'today'); ?>
+        <?php tableBlock('Öğlen (12:30-15:30)', $oglenToday, 'today'); ?>
+        <?php tableBlock('Özel (15:36-17:30)', $ozelToday, 'today'); ?>
     </div>
 
     <!-- YARIN SEKMESİ -->
@@ -311,9 +315,9 @@ function tableBlock($title, $data){
             </div>
         </div>
 
-        <?php tableBlock('Sabah (07:30-10:50)', $sabahTomorrow); ?>
-        <?php tableBlock('Öğlen (12:30-15:30)', $oglenTomorrow); ?>
-        <?php tableBlock('Özel (15:36-17:30)', $ozelTomorrow); ?>
+        <?php tableBlock('Sabah (07:30-10:50)', $sabahTomorrow, 'tomorrow'); ?>
+        <?php tableBlock('Öğlen (12:30-15:30)', $oglenTomorrow, 'tomorrow'); ?>
+        <?php tableBlock('Özel (15:36-17:30)', $ozelTomorrow, 'tomorrow'); ?>
     </div>
 
 </div>
