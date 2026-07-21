@@ -1,0 +1,400 @@
+/* ============================================
+   MEGASTAR ATV & BUGGY SAFARi - STIL CSS
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.headerPanel {
+    background: linear-gradient(135deg, #7b1fa2 0%, #512da8 100%) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+
+.headerPanel h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin: 15px 0;
+}
+
+.mainContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* TAB BAR */
+.tabBar {
+    display: flex;
+    gap: 5px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tabBtn {
+    flex: 1;
+    padding: 12px 20px !important;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white !important;
+    background-color: #555 !important;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0 !important;
+}
+
+.tabBtn:hover {
+    background-color: #777 !important;
+}
+
+.tabBtn.w3-blue {
+    background-color: #2196F3 !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* TAB CONTENT */
+.tabContent {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* TARİH BAŞLIĞI */
+.dateTitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 20px 0 15px 0;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 8px;
+    border-left: 5px solid #2196F3;
+}
+
+/* ÖZET KUTUSU */
+.summaryBox {
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.summaryHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.summaryHeader h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.clearBtn {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+}
+
+.summaryText {
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    color: #666;
+    line-height: 1.6;
+}
+
+.summaryText p {
+    margin: 0;
+}
+
+/* TUR BLOĞU */
+.tourBlock {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.tourBlock:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.tourBlockHeader {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%) !important;
+    padding: 12px 15px !important;
+}
+
+.tourBlockHeader h3 {
+    color: white;
+    margin: 0 !important;
+    font-weight: 700;
+}
+
+/* SERVİS TABLOSU */
+.serviceTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.serviceTable th {
+    background-color: #f5f5f5 !important;
+    color: #333 !important;
+    font-weight: 700;
+    padding: 12px 8px !important;
+    text-align: left;
+    border-bottom: 2px solid #ddd !important;
+}
+
+.serviceTable td {
+    padding: 12px 8px !important;
+    border-bottom: 1px solid #eee !important;
+    vertical-align: middle;
+}
+
+/* TUR SATIRI */
+.tourRow {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.tourRow:hover {
+    background-color: #f9f9f9;
+}
+
+.tourRow.selected {
+    background-color: #e3f2fd !important;
+    border-left: 4px solid #2196F3;
+}
+
+/* SEÇIM BADGE */
+.selectBadge {
+    display: inline-block;
+    min-width: 28px;
+    height: 28px;
+    background: #2196F3;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.tourRow.selected .selectBadge {
+    background: #1976D2;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+}
+
+/* SÜTUNLAr */
+.office {
+    font-weight: 600;
+    color: #333;
+}
+
+.hotel {
+    color: #05731b;
+    font-weight: 500;
+}
+
+.hotel b {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 3px;
+}
+
+.hotel small {
+    color: #666;
+    font-weight: normal;
+}
+
+.vehicle {
+    color: #1565c0;
+    font-weight: 600;
+}
+
+.vehicle span {
+    display: block;
+    color: #1565c0;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.time {
+    text-align: center;
+    color: #ff9800;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.notes {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.status {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* GARAJ KARTI */
+.garajCard {
+    background: linear-gradient(135deg, #f6fff6 0%, #e8f5e9 100%) !important;
+    border-left: 6px solid #4CAF50;
+    border-radius: 8px;
+}
+
+.garajTitle {
+    color: #2e7d32;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.garajContent {
+    font-size: 1.05rem;
+}
+
+.garajContent div {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vehicleIcon {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.vehicleIcon.atv {
+    color: #4CAF50;
+}
+
+.vehicleIcon.buggy {
+    color: #2196F3;
+}
+
+.vehicleIcon.family {
+    color: #FF9800;
+}
+
+/* KİŞİ BİLGİSİ KARTI */
+.kisiBilgisi {
+    background: linear-gradient(135deg, #f3f9ff 0%, #e3f2fd 100%) !important;
+    border-left: 6px solid #2196F3;
+    border-radius: 8px;
+}
+
+.kisiBilgisiTitle {
+    color: #1565c0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.kisiBilgisiNumber {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1565c0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .headerPanel h1 {
+        font-size: 1.8rem;
+    }
+
+    .dateTitle {
+        font-size: 1.3rem;
+    }
+
+    .tabBtn {
+        padding: 10px 15px !important;
+        font-size: 0.9rem;
+    }
+
+    .serviceTable th,
+    .serviceTable td {
+        padding: 8px 6px !important;
+        font-size: 0.9rem;
+    }
+
+    .w3-row-padding {
+        flex-direction: column;
+    }
+
+    .w3-half {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+
+    .summaryText {
+        font-size: 0.95rem;
+    }
+
+    .vehicleIcon.atv,
+    .vehicleIcon.buggy,
+    .vehicleIcon.family {
+        font-size: 1.2rem;
+    }
+
+    .selectBadge {
+        min-width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 12px;
+    }
+}
+
+/* YAZDIRMA ÖPTİMİZASYONU */
+@media print {
+    .tabBar,
+    .clearBtn,
+    .summaryBox {
+        display: none;
+    }
+
+    .tourBlock {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    body {
+        background: white;
+    }
+
+    .serviceTable {
+        border: 1px solid #000;
+    }
+
+    .serviceTable th,
+    .serviceTable td {
+        border: 1px solid #000;
+    }
+
+    .tourRow.selected {
+        background-color: #f0f0f0;
+    }
+}
